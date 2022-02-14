@@ -1,0 +1,67 @@
+version: '3'
+networks:
+  app-network:
+    driver: bridge
+
+services:
+   app:
+     build:
+       context: .
+       dockerfile: ./docker/php/php8/Dockerfile
+     image: php:8.0.8-fpm
+     #user: "${USER_ID:-0}:${GROUP_ID:-0}"
+     user: "1000:1000"
+     container_name: app
+     restart: unless-stopped
+     working_dir: /var/www
+     volumes:
+       - ./:/var/www
+       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+     networks:
+       - app-network
+     tty: true
+   nginx:
+     image: nginx:alpine
+     container_name: webserver
+     user: "${USER_ID:-0}:${GROUP_ID:-0}"
+     restart: unless-stopped
+     ports:
+       - 7777:80
+       - 7778:443
+     volumes:
+       - ./:/var/www
+       - ./docker/nginx/conf.d/:/etc/nginx/conf.d
+     networks:
+       - app-network
+     tty: true
+   mysql:
+      image: mysql:5.7
+      container_name: database
+      user: "${USER_ID:-0}:${GROUP_ID:-0}"
+      command: "--default-authentication-plugin=mysql_native_password"
+      restart: unless-stopped
+      ports:
+        - "777:3306"
+      environment:
+        MYSQL_DATABASE: demo_db
+        MYSQL_USER: demo_user
+        MYSQL_PASSWORD: password
+        MYSQL_ROOT_PASSWORD: root_password
+      volumes:
+        - ./docker/mysql/data:/var/lib/mysql/
+#        - ./docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+      networks:
+        - app-network
+      tty: true
+   phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     container_name: phpmyadmin
+     user: "${USER_ID:-0}:${GROUP_ID:-0}"
+     environment:
+       PMA_HOST: mysql
+       PMA_PORT: 3306
+     ports:
+       - 3000:80
+     networks:
+       - app-network
+
