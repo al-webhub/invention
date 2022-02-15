@@ -32,20 +32,20 @@ jobs:
           key: ${{ secrets.KEY }}
           port: 22
           script: whoami
-  debug:
-    name: Debug
-    runs-on: ubuntu-latest
+#   debug:
+#     name: Debug
+#     runs-on: ubuntu-latest
 
-    steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+#     steps:
+#     - name: Check out code
+#       uses: actions/checkout@v2
 
-    - name: Set up secret file
-      env:
-        DEBUG_KEY: ${{ secrets.KEY }}
-      run: |
+#     - name: Set up secret file
+#       env:
+#         DEBUG_KEY: ${{ secrets.KEY }}
+#       run: |
 
-    - name: Run tmate
-      uses: mxschmitt/action-tmate@v2
+#     - name: Run tmate
+#       uses: mxschmitt/action-tmate@v2
       
           
