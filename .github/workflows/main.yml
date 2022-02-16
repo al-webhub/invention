@@ -12,6 +12,6 @@ jobs:
       with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ secrets.PRIVATE }}
           port: ${{ secrets.SSH_PORT }}
           args: --script 'cd /var/www/watchdog' --script 'git checkout -f' --script 'git pull' --script 'composer install'
