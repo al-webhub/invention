@@ -36,7 +36,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          args: --script 'cd /invention' --script 'git checkout -f' --script 'git pull' --script 'composer install'
+          args: --script 'cd /invention' --script 'ls -la' --script 'git checkout -f' --script 'git pull' --script 'composer install'
 
 #       - name: Deploy with rsync
 #         run: rsync -avz ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:invention
