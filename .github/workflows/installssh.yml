@@ -4,11 +4,7 @@ name: Deploy
 # pull request events on the production branch
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [ main ]
       
 # Authenticate to the the server via ssh 
 # and run our deployment script 
